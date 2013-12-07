@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.webappMVC.servlet;
 
 import com.webappMVC.dto.ItemDTO;
+import com.webappMVC.service.AccesoUsuarios;
+import com.webappMVC.service.AccesoUsuariosImpl;
 import com.webappMVC.service.ManejoInventario;
 import com.webappMVC.service.ManejoInventarioImp;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class Controlador extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Controlador</title>");            
+            out.println("<title>Servlet Controlador</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Controlador at " + request.getContextPath() + "</h1>");
@@ -65,24 +66,28 @@ public class Controlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher requestDispatcher = null;
-        ManejoInventario manejoInventario=new ManejoInventarioImp();
-        int punto =0;
-        try{
-          String puntoStr= request.getParameter("punto");          
-          punto =Integer.parseInt(puntoStr);
-        }catch(NumberFormatException nex){
-           
+        ManejoInventario manejoInventario = new ManejoInventarioImp();
+        int punto = 0;
+        try {
+            String puntoStr = request.getParameter("punto");
+            punto = Integer.parseInt(puntoStr);
+        } catch (NumberFormatException nex) {
+
         }
-        
-        if (request.getParameter("punto").equals("1")){  
-          List<ItemDTO> itemDTOList=  manejoInventario.getInventarioTienda(punto);
-          request.setAttribute("itemList",itemDTOList);
-          requestDispatcher=  request.getRequestDispatcher("/puntoVenta1.jsp");
-        }
-        else {
-          List<ItemDTO> itemDTOList=  manejoInventario.getInventarioTienda(punto);
-          request.setAttribute("itemList",itemDTOList);
-          requestDispatcher=  request.getRequestDispatcher("/puntoVenta2.jsp");        
+        if (request.getParameter("usuario").equals("true")) {
+            AccesoUsuarios a = new AccesoUsuariosImpl();
+            request.setAttribute("listaUsuarios", a.getListaUsuarios());
+            requestDispatcher = request.getRequestDispatcher("/InfoUsuario.jsp");
+        } else {
+            if (request.getParameter("punto").equals("1")) {
+                List<ItemDTO> itemDTOList = manejoInventario.getInventarioTienda(punto);
+                request.setAttribute("itemList", itemDTOList);
+                requestDispatcher = request.getRequestDispatcher("/puntoVenta1.jsp");
+            } else {
+                List<ItemDTO> itemDTOList = manejoInventario.getInventarioTienda(punto);
+                request.setAttribute("itemList", itemDTOList);
+                requestDispatcher = request.getRequestDispatcher("/puntoVenta2.jsp");
+            }
         }
         requestDispatcher.forward(request, response);
     }
