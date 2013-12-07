@@ -4,8 +4,9 @@
 .settings/
 
 # netbeans
-nbproject/private
-nbactions.xml
+/*/nbproject/
+#nbproject/private
+*/nbactions.xml
 
 # maven
 /*/target/
@@ -33,3 +34,4 @@ nbactions.xml
 *.ipr
 *.iws
 .idea/
+/Exercise1/WebAppMVC/nbproject/
