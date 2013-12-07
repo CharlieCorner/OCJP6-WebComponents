@@ -6,8 +6,11 @@
 
 package com.example.web;
 
+import com.example.model.BeerExpert;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,19 +34,9 @@ public class BeerSelect extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BeerSelect</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BeerSelect at " + request.getContextPath() + "</h1>");
-            out.println("<br> El tipo seleccionado es: " +request.getParameter("color"));
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.setAttribute("brands", new BeerExpert().getBrands(request.getParameter("color")));
+        RequestDispatcher rd = request.getRequestDispatcher("/result.jsp");
+        rd.forward(request, response);
     }
 
     /**
