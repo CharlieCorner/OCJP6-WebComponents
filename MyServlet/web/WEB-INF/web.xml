@@ -22,4 +22,14 @@
         <url-pattern>/start/login.html</url-pattern>
     </servlet-mapping>
         
+    <!-- Context params -->
+    <context-param>
+        <param-name>helpEmail</param-name>
+        <param-value>theVeryChido@support.com</param-value>
+    </context-param>
+    
+    <listener>
+        <description>MyListenerYesss</description>
+        <listener-class>com.foo.listeners.MyServletContextListener</listener-class>
+    </listener>
 </web-app>
